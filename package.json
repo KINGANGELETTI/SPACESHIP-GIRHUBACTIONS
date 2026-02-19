@@ -23,6 +23,7 @@
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^12.6.2",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "express-session": "^1.19.0"
   }
 }

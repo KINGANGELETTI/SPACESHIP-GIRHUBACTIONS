@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const Database = require('better-sqlite3');
@@ -31,7 +32,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'change-this-secret-in-production',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+  cookie: { maxAge: 1000 * 60 * 60 * 24, secure: 'auto', httpOnly: true, sameSite: 'lax' }
 }));
 
 // Auth middleware
@@ -68,8 +69,15 @@ app.get('/api/user', requireLogin, (req, res) => {
   res.json(user);
 });
 
+// Rate limiting for auth routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { error: 'Too many attempts, please try again later' },
+});
+
 // Login
-app.post('/login', (req, res) => {
+app.post('/login', authLimiter, (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
@@ -85,7 +93,7 @@ app.post('/login', (req, res) => {
 });
 
 // Sign up
-app.post('/signup', (req, res) => {
+app.post('/signup', authLimiter, (req, res) => {
   const { email, name, password, nickname, age, phone, sex } = req.body;
   if (!email || !name || !password) {
     return res.status(400).json({ error: 'Email, name, and password are required' });
