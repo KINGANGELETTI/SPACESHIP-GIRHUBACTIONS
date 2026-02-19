@@ -46,24 +46,28 @@
       e.preventDefault();
       const errorEl = document.getElementById('error');
       errorEl.textContent = '';
-      const res = await fetch('/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: document.getElementById('email').value,
-          name: document.getElementById('name').value,
-          password: document.getElementById('password').value,
-          nickname: document.getElementById('nickname').value,
-          age: document.getElementById('age').value,
-          phone: document.getElementById('phone').value,
-          sex: document.getElementById('sex').value
-        })
-      });
-      const data = await res.json();
-      if (data.success) {
-        window.location.href = '/main';
-      } else {
-        errorEl.textContent = data.error;
+      try {
+        const res = await fetch('/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('email').value,
+            name: document.getElementById('name').value,
+            password: document.getElementById('password').value,
+            nickname: document.getElementById('nickname').value,
+            age: document.getElementById('age').value,
+            phone: document.getElementById('phone').value,
+            sex: document.getElementById('sex').value
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          window.location.href = '/main';
+        } else {
+          errorEl.textContent = data.error;
+        }
+      } catch {
+        errorEl.textContent = 'Something went wrong. Please try again.';
       }
     });
   </script>
