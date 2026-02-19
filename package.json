@@ -1,0 +1,29 @@
+{
+  "name": "spaceship-girhubactions",
+  "version": "1.0.0",
+  "description": "TESTING FOR UAIJG GITHUB ACTIONS TO UPLOAD WEBSITE AUTOMATICALLY TO SPACESHIP.COM WEBSITE",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KINGANGELETTI/SPACESHIP-GIRHUBACTIONS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KINGANGELETTI/SPACESHIP-GIRHUBACTIONS/issues"
+  },
+  "homepage": "https://github.com/KINGANGELETTI/SPACESHIP-GIRHUBACTIONS#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.6.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.19.0"
+  }
+}

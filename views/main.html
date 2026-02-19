@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, <span id="userName"></span>!</h1>
+    <div class="profile">
+      <div class="profile-row"><strong>Email:</strong> <span id="userEmail"></span></div>
+      <div class="profile-row"><strong>Name:</strong> <span id="userFullName"></span></div>
+      <div class="profile-row"><strong>Nickname:</strong> <span id="userNickname"></span></div>
+      <div class="profile-row"><strong>Age:</strong> <span id="userAge"></span></div>
+      <div class="profile-row"><strong>Phone:</strong> <span id="userPhone"></span></div>
+      <div class="profile-row"><strong>Sex:</strong> <span id="userSex"></span></div>
+    </div>
+    <button id="logoutBtn">Log Out</button>
+  </div>
+  <script>
+    async function loadUser() {
+      const res = await fetch('/api/user');
+      if (!res.ok) {
+        window.location.href = '/';
+        return;
+      }
+      const user = await res.json();
+      document.getElementById('userName').textContent = user.nickname || user.name;
+      document.getElementById('userEmail').textContent = user.email;
+      document.getElementById('userFullName').textContent = user.name;
+      document.getElementById('userNickname').textContent = user.nickname || '—';
+      document.getElementById('userAge').textContent = user.age || '—';
+      document.getElementById('userPhone').textContent = user.phone || '—';
+      document.getElementById('userSex').textContent = user.sex || '—';
+    }
+    loadUser();
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/logout', { method: 'POST' });
+      window.location.href = '/';
+    });
+  </script>
+</body>
+</html>
